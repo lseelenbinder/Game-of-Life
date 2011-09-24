@@ -7,7 +7,7 @@ class Board : public Grid<bool> {
     public:
         Board(unsigned int m, unsigned int n);
         void printBorder(int n);
-        void printBoard();
+        void printBoard(bool);
         void randomizeBoard();
         void age();
         int numNeighbors(int m, int n);

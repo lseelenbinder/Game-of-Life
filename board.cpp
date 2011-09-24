@@ -16,16 +16,17 @@ void Board::printBorder(int n) {
     cout << "*" << endl;
 }
 
-void Board::printBoard() {
-    printBorder(ColCount());
+void Board::printBoard(bool border) {
+    if (border) printBorder(ColCount());
     for (unsigned int m = 0; m < RowCount(); ++m) {
-        cout << " * ";
+        if (border) cout << " * ";
         for (unsigned int n = 0; n < ColCount(); ++n) {
             cout << ((*this)[m][n] ? "X " : "  ");
         }
-        cout << "*" << endl;
+        if (border) cout << "*";
+        cout << endl;
     }
-    printBorder(ColCount());
+    if (border) printBorder(ColCount());
 }
 
 void Board::randomizeBoard() {
