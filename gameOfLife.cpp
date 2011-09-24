@@ -39,10 +39,9 @@ void runGame(int m, int n, int k, bool printBorder) {
         // handle memory of generations
         vector<bool> g = b.representation();
         //check for previous matching generations
-        vector< vector<bool> >::iterator iter = generations.begin();
-        for (; iter != generations.end(); ++iter) {
-            if (compareBoolVector(g, *iter)) {
-                cout << "Encountered duplicate generation; breaking..." << endl;
+        for (int k = 0; k < generations.size(); ++k) {
+            if (compareBoolVector(g, generations.at(k))) {
+                cout << "Encountered duplicate of generation #" << k+1 << "; breaking..." << endl;
                 exit(0);
             }
         }
