@@ -1,19 +1,21 @@
 #include <iostream>
-#include <list>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <list>
+#include <vector>
 #include "grid.h"
 #include "board.h"
 
 using namespace std;
 
-void printBoolArray(bool* bA) {
-    for (bool* i = bA; i < bA + sizeof(bA); i += sizeof(bool)) {
-        cout << *i << endl;
+bool compareBoolVector(vector<bool> &a, vector<bool> &b) {
+    int size = a.size();
+    for (int i = 0; i < size; ++i) {
+        if (a[i] != b[i]) return false;
     }
+    return true;
 }
-
 void runGame(int m, int n, int k, bool printBorder) {
     cout << "Board size: " << m << " x " << n << endl;
     cout << "Generations: " << k << endl;
@@ -23,15 +25,28 @@ void runGame(int m, int n, int k, bool printBorder) {
     cout << endl << "Inital Board (Generation 1): " <<  endl;
     b.printBoard(printBorder);
 
+    vector< vector<bool> > generations;
+    generations.push_back(b.representation());
+
     for (long i = 1; i < k; ++i) { // we already are at generation 1
+        b.age();
         if (b.isEmpty()) {
             cout << "All cells are dead. Aborting..." << endl;
             break;
         }
-        b.age();
         cout << endl <<  "Generation: " << i+1 << endl;
         b.printBoard(printBorder);
-        //printBoolArray(b.representation());
+        // handle memory of generations
+        vector<bool> g = b.representation();
+        //check for previous matching generations
+        vector< vector<bool> >::iterator iter = generations.begin();
+        for (; iter != generations.end(); ++iter) {
+            if (compareBoolVector(g, *iter)) {
+                cout << "Encountered duplicate generation; breaking..." << endl;
+                exit(0);
+            }
+        }
+        generations.push_back(g);
     }
 }
 

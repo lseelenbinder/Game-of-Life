@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdlib.h>
+#include <vector>
 #include "grid.h"
 #include "board.h"
 
@@ -92,14 +93,20 @@ int Board::numNeighbors(int m, int n) {
 
 }
 
-bool* Board::representation() { // for keeping track of generations
-    bool *b = (bool*) calloc(RowCount() * ColCount(), sizeof(bool));
+vector<bool> Board::representation() { // for keeping track of generations
+    vector<bool> b;
+    if (isEmpty()) {
+        return b;
+    }
+    int i = 0;
     for (unsigned int m = 0; m < RowCount(); ++m) {
         for (unsigned int n = 0; n < ColCount(); ++n) {
-            b[m*n] = (*this)[m][n];
+            b.push_back((*this)[m][n]);
+            ++i;
         }
     }
     return b;
 }
 
 bool Board::isEmpty() { return empty; }
+int Board::size() { return ColCount() * RowCount(); }

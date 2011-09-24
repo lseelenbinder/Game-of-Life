@@ -1,6 +1,7 @@
 #ifndef BOARD_H
 #define BOARD_H
 #include "grid.h"
+#include <vector>
 
 class Board : public Grid<bool> {
     bool empty;
@@ -11,7 +12,8 @@ class Board : public Grid<bool> {
         void randomizeBoard();
         void age();
         int numNeighbors(int m, int n);
-        bool* representation();
+        std::vector<bool> representation();
         bool isEmpty();
+        int size();
 };
 #endif
