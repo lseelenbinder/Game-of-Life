@@ -79,7 +79,7 @@ int Board::numNeighbors(int m, int n) {
     int num = 0;
     for (int i = -1; i < 2; ++i) {
         if (m == 0 && i == -1) continue; //edge detect
-        if (m == ColCount() && i == 1) continue; //edge detect
+        if (m == ColCount()-1 && i == 1) continue; //edge detect
         for (int k = -1; k < 2; ++k) {
             if (n == 0 && k == -1) continue; //edge detect
             if (n == RowCount()-1 && k == 1) continue; //edge detect
