@@ -76,8 +76,10 @@ void Board::age() {
 
 int Board::numNeighbors(const int m, const int n) {
     int num = 0;
-    int stopM = (m == RowCount()-1) ? m : (m + 1);
-    int stopN = (n == ColCount()-1) ? n : (n + 1);
+    // cast to (int) to prevent comparison of int and unsigned int
+    int stopM = (m == (int) RowCount()-1) ? m : (m + 1);
+    int stopN = (n == (int) ColCount()-1) ? n : (n + 1);
+    // ternary operator determines if m or n is on the edge
     for (int _m = (m ? (m - 1) : m); _m <= stopM; ++_m) {
         for (int _n = (n ? (n - 1) : n); _n <= stopN; ++_n) {
             if (_m == m && _n == n) continue; // skip actual cell
