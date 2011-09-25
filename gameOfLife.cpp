@@ -55,6 +55,7 @@ void runGame(const int m, const int n, const int k, const bool printBorder) {
         cout << endl <<  "Generation: " << i+1 << endl;
         b.printBoard(printBorder);
     }
+    b.empty();
 }
 
 void printUsage() {
