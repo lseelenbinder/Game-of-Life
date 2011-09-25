@@ -32,11 +32,11 @@ void Board::printBoard(bool border) {
 
 void Board::randomizeBoard() {
     srand(time(NULL));
-    empty = true;
+    emptyBoard = true;
     for (unsigned int m = 0; m < RowCount(); ++m) {
         for (unsigned int n = 0; n < ColCount(); ++n) {
             (*this)[m][n] = (rand() & 1);
-            if ((*this)[m][n]) empty = false;
+            if ((*this)[m][n]) emptyBoard = false;
         }
     }
 
@@ -64,11 +64,11 @@ void Board::age() {
 
     // copy next generation to Board's grid
     // also check for empty board
-    empty = true;
+    emptyBoard = true;
     for (unsigned int m = 0; m < RowCount(); ++m) {
         for (unsigned int n = 0; n < ColCount(); ++n) {
             (*this)[m][n] = next[m][n];
-            if (next[m][n]) empty = false;
+            if (next[m][n]) emptyBoard = false;
         }
     }
     next.empty(); // free memory from grid
@@ -103,5 +103,5 @@ vector<bool> Board::representation() { // for keeping track of generations
     return b;
 }
 
-bool Board::isEmpty() { return empty; }
+bool Board::isEmpty() { return emptyBoard; }
 int Board::size() { return ColCount() * RowCount(); }

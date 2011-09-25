@@ -4,7 +4,7 @@
 #include <vector>
 
 class Board : public Grid<bool> {
-    bool empty;
+    bool emptyBoard;
     public:
         Board(unsigned int m, unsigned int n);
         void printBorder(int n);
