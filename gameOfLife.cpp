@@ -26,7 +26,7 @@ void runGame(const int m, const int n, const int k, const bool printBorder) {
     Board b = Board(m, n);
 
     //print initial board
-    cout << endl << "Inital Board (Generation 1): " <<  endl;
+    cout << endl << "Initial Board (Generation 1): " <<  endl;
     b.printBoard(printBorder);
 
     //initialize container to hold generations
@@ -47,7 +47,7 @@ void runGame(const int m, const int n, const int k, const bool printBorder) {
         vector<bool> g = b.representation();
         for (int j = generations.size()-1; j >= 0; --j) {
             if (compareBoolVector(g, generations.at(j))) {
-                cout << "Encountered duplicate of generation #" << j+1 << ". Aborting..." << endl;
+                cout << "Generation #" << i+1 << " is a duplicate of generation #" << j+1 << ". Aborting..." << endl;
                 exit(0);
             }
         }
@@ -58,7 +58,7 @@ void runGame(const int m, const int n, const int k, const bool printBorder) {
             generations.pop_front();
         }
 
-        cout << endl <<  "Generation: " << i+1 << endl;
+        cout << endl <<  "Generation #" << i+1 << endl;
         b.printBoard(printBorder);
     }
     b.empty();
@@ -66,6 +66,12 @@ void runGame(const int m, const int n, const int k, const bool printBorder) {
 
 void printUsage() {
     cout << "usage: gameOfLife [-m mSIZE] -n nSIZE -k GENERATIONS [--noborder]" << endl;
+    cout << endl;
+    cout << "       mSIZE (int) is an optional argument to set the height of the board." << endl;
+    cout << "       nSIZE (int) sets the width of the board." << endl;
+    cout << "       GENERATIONS (int) is the number of generations to calculate." << endl;
+    cout << "       --noborder turns off printing of border around the board." << endl;
+
 }
 
 int main(int argc, char* argv[]) {
