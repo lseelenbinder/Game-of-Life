@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <list>
+#include <deque>
 #include <vector>
 #include "grid.h"
 #include "board.h"
@@ -29,7 +30,7 @@ void runGame(const int m, const int n, const int k, const bool printBorder) {
     b.printBoard(printBorder);
 
     //initialize container to hold generations
-    vector< vector<bool> > generations;
+    deque< vector<bool> > generations;
     generations.push_back(b.representation());
 
     for (long i = 1; i < k; ++i) { // i = 1 because we are already at generation 1
@@ -51,6 +52,11 @@ void runGame(const int m, const int n, const int k, const bool printBorder) {
             }
         }
         generations.push_back(g);
+
+        // check for severe memory usage
+        if (generations.size() > 50) {
+            generations.pop_front();
+        }
 
         cout << endl <<  "Generation: " << i+1 << endl;
         b.printBoard(printBorder);
