@@ -48,7 +48,7 @@ public:
 		}
 	}
     void empty() {
-        delete grid;
+        delete[] grid;
     }
 };
 #endif
