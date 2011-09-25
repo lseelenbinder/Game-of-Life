@@ -43,28 +43,26 @@ void Board::randomizeBoard() {
 }
 
 void Board::age() {
-    Grid<bool> next(RowCount(), ColCount()); // use this grid to prevent
-                                             // overwriting as we check
-                                             // for neighbors
-    int neighbors = 0;
-    //calculate next generation and place in b
+    //calculate next generation
+    Grid<bool> next(RowCount(), ColCount());
+
     for (unsigned int m = 0; m < RowCount(); ++m) {
         for (unsigned int n = 0; n < ColCount(); ++n) {
-            neighbors = numNeighbors(m, n);
-            switch (neighbors) {
-                case 2:
-                case 3:
-                    if (!(*this)[m][n] && neighbors == 3) {
-                        next[m][n] = true;
-                    }
-                    break;
-                default:
-                    next[m][n] = false; // death
-                    break;
+            int neighbors = numNeighbors(m, n);
+            bool cell = (bool) (*this)[m][n];
+
+            if (
+                (cell && (neighbors == 2 || neighbors == 3)) || // sustained
+                (!cell && neighbors == 3) // birth
+                ) {
+                next[m][n] = true;
+            } else { // death
+                next[m][n] = false;
             }
         }
     }
-    // copy next to Board's grid
+
+    // copy next generation to Board's grid
     // also check for empty board
     empty = true;
     for (unsigned int m = 0; m < RowCount(); ++m) {
@@ -76,19 +74,16 @@ void Board::age() {
     next.empty(); // free memory from grid
 }
 
-int Board::numNeighbors(int m, int n) {
+int Board::numNeighbors(const int m, const int n) {
     int num = 0;
-    for (int i = -1; i < 2; ++i) {
-        if (m == 0 && i == -1) continue; //edge detect
-        if (m == ColCount()-1 && i == 1) continue; //edge detect
-        for (int k = -1; k < 2; ++k) {
-            if (n == 0 && k == -1) continue; //edge detect
-            if (n == RowCount()-1 && k == 1) continue; //edge detect
-            if (m+i == m && n+k == n) continue; // don't count actual cell
-
-            if ((*this)[m+i][n+k]) ++num; // increment as a neighbor
+    int stopM = (m == RowCount()-1) ? m : (m + 1);
+    int stopN = (n == ColCount()-1) ? n : (n + 1);
+    for (int _m = (m ? (m - 1) : m); _m <= stopM; ++_m) {
+        for (int _n = (n ? (n - 1) : n); _n <= stopN; ++_n) {
+            if (_m == m && _n == n) continue; // skip actual cell
+            if ((*this)[_m][_n]) ++num;
         }
-    }
+    } 
     return num;
 
 }

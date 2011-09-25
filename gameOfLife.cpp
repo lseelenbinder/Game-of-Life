@@ -16,36 +16,44 @@ bool compareBoolVector(vector<bool> &a, vector<bool> &b) {
     }
     return true;
 }
-void runGame(int m, int n, int k, bool printBorder) {
+
+void runGame(const int m, const int n, const int k, const bool printBorder) {
     cout << "Board size: " << m << " x " << n << endl;
     cout << "Generations: " << k << endl;
 
     //setup board
     Board b = Board(m, n);
+
+    //print initial board
     cout << endl << "Inital Board (Generation 1): " <<  endl;
     b.printBoard(printBorder);
 
+    //initialize container to hold generations
     vector< vector<bool> > generations;
     generations.push_back(b.representation());
 
-    for (long i = 1; i < k; ++i) { // we already are at generation 1
+    for (long i = 1; i < k; ++i) { // i = 1 because we are already at generation 1
+        //progress to next generation
         b.age();
+
+        //check for empty grid
         if (b.isEmpty()) {
             cout << "All cells are dead. Aborting..." << endl;
-            break;
+            exit(0);
         }
-        cout << endl <<  "Generation: " << i+1 << endl;
-        b.printBoard(printBorder);
-        // handle memory of generations
-        vector<bool> g = b.representation();
+
         //check for previous matching generations
-        for (int k = 0; k < generations.size(); ++k) {
-            if (compareBoolVector(g, generations.at(k))) {
-                cout << "Encountered duplicate of generation #" << k+1 << "; breaking..." << endl;
+        vector<bool> g = b.representation();
+        for (int j = generations.size()-1; j >= 0; --j) {
+            if (compareBoolVector(g, generations.at(j))) {
+                cout << "Encountered duplicate of generation #" << j+1 << ". Aborting..." << endl;
                 exit(0);
             }
         }
         generations.push_back(g);
+
+        cout << endl <<  "Generation: " << i+1 << endl;
+        b.printBoard(printBorder);
     }
 }
 
